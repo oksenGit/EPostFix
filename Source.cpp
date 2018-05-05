@@ -80,59 +80,63 @@ int getTop(Stack s) {
 
 void main() {
 	string exp[50];
-	float result = 0;
-	int expSize = 0;
-	cout << "Enter an expression enter = to stop: ";
-	for (int i = 0; i < 50; i++) {
-		cin >> exp[i];
-		if (!exp[i].compare("=")) break;
-		expSize++;
-	}
-	Stack st;
-	MAKENULL(st);
-	for (int i = 0; i<expSize; i++) {
-		result = 0;
-		if (exp[i] != "+" && exp[i] != "-" && exp[i] != "*" && exp[i].compare("/") && exp[i].compare("^")) {
-			push(st, stoi(exp[i]));
+	while (1) {
+		float result = 0;
+		int expSize = 0;
+		cout << "Enter an expression enter = to Evaluate or Q to Quit: ";
+		for (int i = 0; i < 50; i++) {
+			cin >> exp[i];
+			if (!exp[i].compare("Q")) goto EXIT;
+			if (!exp[i].compare("=")) break;
+			expSize++;
 		}
-		else if (!exp[i].compare("+")) {
-			printStack(st);
-			result = pop(st);
-			result += pop(st);
-			push(st, result);
-		}
-		else if (!exp[i].compare("-")) {
-			printStack(st);
-			result = pop(st);
-			result -= pop(st);
-			push(st, -result);
-		}
-		else if (!exp[i].compare("*")) {
-			printStack(st);
-			result = pop(st);
-			result *= pop(st);
-			push(st, result);
-		}
-		else if (!exp[i].compare("/")) {
-			int res1 = 0;
-			printStack(st);
-			res1 = pop(st);
-			result = pop(st);
-			result = result / res1;
-			push(st, result);
-		}
-		else if (!exp[i].compare("^")) {
+		Stack st;
+		MAKENULL(st);
+		for (int i = 0; i < expSize; i++) {
+			result = 0;
+			if (exp[i] != "+" && exp[i] != "-" && exp[i] != "*" && exp[i].compare("/") && exp[i].compare("^")) {
+				push(st, stoi(exp[i]));
+			}
+			else if (!exp[i].compare("+")) {
+				printStack(st);
+				result = pop(st);
+				result += pop(st);
+				push(st, result);
+			}
+			else if (!exp[i].compare("-")) {
+				printStack(st);
+				result = pop(st);
+				result -= pop(st);
+				push(st, -result);
+			}
+			else if (!exp[i].compare("*")) {
+				printStack(st);
+				result = pop(st);
+				result *= pop(st);
+				push(st, result);
+			}
+			else if (!exp[i].compare("/")) {
+				int res1 = 0;
+				printStack(st);
+				res1 = pop(st);
+				result = pop(st);
+				result = result / res1;
+				push(st, result);
+			}
+			else if (!exp[i].compare("^")) {
 
-			printStack(st);
-			int po = pow((double)pop(st), (double)pop(st));
-			result += po;
-			push(st, result);
+				printStack(st);
+				int po = pow((double)pop(st), (double)pop(st));
+				result += po;
+				push(st, result);
+			}
+			else {
+				cout << "expression invalid!";
+			}
+			
 		}
-		else {
-			cout << "expression invalid!";
-		}
+		cout << endl << endl;
+		printStack(st);
 	}
-	cout << endl << endl;
-	printStack(st);
-	system("pause");
+EXIT:;
 }
